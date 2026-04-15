@@ -1,0 +1,388 @@
+<script type="text/javascript">
+    $(function() {
+        $( "#tglentry" ).datepicker({ altFormat: 'yy-mm-dd' });
+        $( "#tglentry" ).change(function() {
+             $( "#tglentry" ).datepicker( "option", "dateFormat","yy-mm-dd" );
+         });
+    });
+    </script>
+
+<?php
+if (empty($_SESSION['ses_user']) AND empty($_SESSION['ses_password'])){  
+  header('location:404.php');
+}
+else{
+	$aksi = "modul/industri/aksi_industri.php";
+	 // mengatasi variabel yang belum di definisikan (notice undefined index)
+  $act = isset($_GET['act']) ? $_GET['act'] : ''; 
+
+  switch($act){
+    default:
+	 $kec = pg_query($koneksi, "SELECT * FROM industri where tahun='$_SESSION[thnaktif]'");
+  $count=pg_num_rows($kec);
+	echo"
+	
+	<div class='box'>
+                <div class='box-header'>
+                  <h2 class='box-title'>DATA INDUSTRI RUMAH TANGGA</h2>";
+                ?>
+				<form method="post" name="frm">
+		
+			<div style="text-align:right">
+			
+			 <a  class="btn bg-green margin"  data-toggle="tooltip" data-placement="top" title="Beranda" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a> 
+			
+          <a  class="btn bg-purple margin" data-toggle="tooltip" data-placement="top" title="Tambah" href="?module=industri&act=tambahindustri"><i class="fa fa-send"></i> Tambah</a> 
+		  
+		<?php
+		if($count > 0)
+        {
+		?>			 
+			 <button class="btn bg-orange btn-flat margin"  data-toggle="tooltip" data-placement="top" title="lihat"  onClick="view_records_industri();" ><i class="fa fa-desktop"></i> Lihat</button>
+		  <button class="btn bg-olive btn-flat margin" data-toggle="tooltip" data-placement="top" title="Edit"  onClick="update_records_industri();" ><i class="fa fa-edit"></i> Edit</button> 
+		  <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"   onClick="delete_records_industri();" ><i class="fa fa-remove"></i> Hapus </button>
+		  </div>
+			
+		<?php } ?>	
+			
+				
+                <div class='box-body'>
+				<div class="box-body table-responsive no-padding">
+                  <table id='example1' class='table table-bordered table-striped'>
+                    <thead>
+                      <tr>
+					   <th>
+					   <input type="checkbox"  name="select_all" id="select_all" value=""/>
+					   </th>
+                        <th>No</th>
+                        <th>Nama KK</th>
+						<th>Kategori</th>
+						<th>Komoditi</th>
+						<th>Jumlah</th>
+						<th>Dasawisma</th>
+						<th>Lingkungan</th>
+						<th>Kelurahan</th>
+						<th>Kecamatan</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+					<?php  
+					$no = 1;
+					$lingk =pg_query($koneksi, "select * from industri where tahun='$_SESSION[thnaktif]' and kodekel='$_SESSION[ses_kodekel]' order by namakk");
+					while ($lk=pg_fetch_array($lingk)){       
+			?>
+                      <tr>
+					  <td style='text-align:center'>
+					  
+					<input  type="checkbox" name="chk[]" class="chk-box" value="<?php echo $lk['id'];?>"/>
+                       </td> 
+						<td><?php echo" $no"; ?></td>
+                        <td><?php echo" $lk[namakk]"; ?></td>
+						<td><?php echo" $lk[kategori]"; ?></td>
+						<td><?php echo" $lk[komoditi]"; ?></td>
+						<td><?php echo" $lk[jumlah]"; ?></td>
+						<td><?php echo" $lk[dasawisma]"; ?></td>
+						<td><?php echo" $lk[lingkungan]"; ?></td>
+						<td><?php echo" $lk[kelurahan]"; ?></td>
+						<td><?php echo" $lk[kecamatan]"; ?></td>
+                      </tr>
+					  <?php
+                $no++;
+              }
+              ?> 
+                    </tbody>
+                    
+                  </table>
+				  </div>
+				  </form>
+                </div>
+              </div>
+	<?php		  
+	 break;
+	   case "tambahindustri":
+	  
+	 ?>
+	 <center><h3 class="box-title">TAMBAH DATA INDUSTRI RUMAH TANGGA</h3></center>
+ 
+			<div class="box box-info">
+
+                <div class="box-header with-border">
+                  
+                </div><!-- /.box-header -->
+                <!-- form start -->
+				
+                <form class="form-horizontal" action="<?php echo $aksi;?>?module=industri&act=input" method="POST" id="popup-validation" enctype="multipart/form-data">
+				<div class="col-md-6">
+                  <div class="box-body">
+				  
+				    <div class="form-group">
+					  <label for="tglentry" class="col-sm-4 control-label">Tgl.Entry <span class="text-danger"> *</span></label>
+                      <div class="col-sm-4">
+                        <input type="text" class="validate[required,custom[date]] form-control" id="tglentry" name="tglentry" placeholder="YYYY-MM-DD" value="<?php echo "$tgl_sekarang";?>" >
+                      </div>
+					</div>
+				  
+                    <div class="form-group">
+					<label for="nokk" class="col-sm-4 control-label">No.KK<span class="text-danger"> *</span></label>
+					  <div class="col-sm-6">
+					  <input type="hidden"  id="id" class="form-control" />
+                        <input type="text" class="validate[required,custom[number]] form-control" name="nokk" id="nokk" placeholder="No.KK" readonly>
+                     </div><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal5"><i class="fa fa-search"></i> Cari</button>
+					 </div>
+					
+					  <div class="form-group">
+					<label for="noreg" class="col-sm-4 control-label">No.Reg <span class="text-danger"> *</span></label>
+					  <div class="col-sm-5">
+					  <input type="text" class="validate[required,custom[number]] form-control" name="noreg" id="noreg" placeholder="noreg" readonly>
+                      </div>
+					 </div>
+					
+					<div class="form-group">
+					  <label for="namakk" class="col-sm-4 control-label">Kepala Keluarga<span class="text-danger"> *</span></label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="namakk" id="namakk" placeholder="Kepala Keluarga" readonly>
+                       </div>
+					 </div>
+					 
+					 <div class="form-group">
+					 <label for="kodekel" class="col-sm-4 control-label">Kode Kelurahan<span class="text-danger"> *</span></label>
+					  <div class="col-sm-5">
+                        <input type="text" class="form-control" name="kodekel" id="kodekel" placeholder="Kode Kelurahan" readonly>
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					<label for="namakel" class="col-sm-4 control-label">Nama Kelurahan<span class="text-danger"> *</span></label>
+					  <div class="col-sm-7">
+                        <input type="text" class="form-control" name="namakel" id="namakel" placeholder="Nama Kelurahan" readonly>
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					<label for="kodekec" class="col-sm-4 control-label">Kode Kecamatan<span class="text-danger"> *</span></label>
+					  <div class="col-sm-5">
+                        <input type="text" class="form-control" name="kodekec" id="kodekec" placeholder="Kode Kecamatan" readonly>
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					<label for="namakec" class="col-sm-4 control-label">Nama Kecamatan<span class="text-danger"> *</span></label>
+					  <div class="col-sm-7">
+                        <input type="text" class="form-control" name="namakec" id="namakec" placeholder="Nama Kecamatan" readonly>
+                       </div>
+					</div>
+					 
+					 
+					<div class="form-group">	
+					  <label for="nama_lingkungan" class="col-sm-4 control-label">Lingkungan <span class="text-danger"> *</span></label>
+					  <div class="col-sm-6">
+                       <select class='validate[required] form-control' name='nama_lingkungan' id='lingkungan'readonly>
+						<option></option>
+						<?php
+									$lk = pg_query($koneksi, "SELECT * FROM lingkungan order by kode"); 
+										while($p = pg_fetch_array($lk)){
+													
+											echo"
+												<option value=\"$p[nama_lingkungan]\">$p[nama_lingkungan]</option>\n";
+											}
+										echo"";	
+															  
+															  
+						?>									  								  
+						</select>				
+                      </div>
+					</div>
+					
+					<div class="form-group">	
+					  <label for="dasawisma" class="col-sm-4 control-label">Nama Dasawisma <span class="text-danger"> *</span></label>
+					  <div class="col-sm-6">
+                       <select class='validate[required] form-control' name='dasawisma' id='dasawisma'readonly>
+						<option></option>
+						<?php
+									$lk = pg_query($koneksi, "SELECT * FROM dasawisma where kodekel='$_SESSION[ses_kodekel]' order by kode"); 
+										while($p = pg_fetch_array($lk)){
+													
+											echo"
+												<option value=\"$p[nama_dasawisma]\">$p[nama_dasawisma]</option>\n";
+											}
+										echo"";	
+															  
+															  
+						?>									  								  
+						</select>				
+                      </div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+					  <div class="col-sm-7">
+                        <input type="hidden" class="form-control" name="kodekel" id="kodekel" value="<?php echo $_SESSION['ses_kodekel'];?>">
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					  <div class="col-sm-7">
+                        <input type="hidden" class="form-control" name="namakel" id="namakel" value="<?php echo $_SESSION['ses_namakel'];?>">
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					  <div class="col-sm-7">
+                        <input type="hidden" class="form-control" name="kodekec" id="kodekec" value="<?php echo $_SESSION['ses_kodekec'];?>">
+                       </div>
+					</div>
+					
+					<div class="form-group">
+					  <div class="col-sm-7">
+                        <input type="hidden" class="form-control" name="namakec" value="<?php echo $_SESSION['ses_namakec'];?>">
+                       </div>
+					</div>
+					
+					</div><!-- /.box-body -->
+				</div>	
+				
+				<div class="col-md-6">
+                  <div class="box-body">
+					<div class="form-group">
+                     <label for="dataindustri" class="col-sm-5 control-label">I. Data Industri Rumah Tangga</label>
+				    </div>
+					
+					<div class="form-group">
+					 <label for="kategori" class="col-sm-4 control-label">Kategori<span class="text-danger"> *</span></label>
+					  <div class="col-sm-7">
+                        <select class=" validate[required] form-control" name='kategori'  >
+							<option></option>
+							<option value="Sandang">Sandang</option>
+							<option value="Pangan">Pangan</option>
+							<option value="Konvensi">Konvensi</option>
+							<option value="Jasa">Jasa</option>
+							<option value="Lain-Lain">Lain-Lain</option>
+						</select>
+                      </div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+					<label for="komoditi" class="col-sm-4 control-label">Komoditi<span class="text-danger"> *</span></label>
+					  <div class="col-sm-7">
+					    <input type="text" class="validate[required] form-control" name="komoditi" id="komoditi" placeholder="Komoditi">
+                     </div>
+					 </div>
+					
+					<div class="form-group">
+					<label for="jumlah" class="col-sm-4 control-label">Jumlah<span class="text-danger"> *</span></label>
+					  <div class="col-sm-3">
+					    <input type="text" class="validate[required,custom[number]] form-control" name="jumlah" id="jumlah" placeholder="Jumlah">
+                     </div>
+					 </div>
+					
+					<div class="form-group">
+					 <label for="satuan" class="col-sm-4 control-label">Satuan<span class="text-danger"> *</span></label>
+					  <div class="col-sm-4">
+                        <select class=" validate[required] form-control" name='satuan' id='satuan'  >
+							<option></option>
+							<?php
+									$lk = pg_query($koneksi, "SELECT * FROM mstsatuan order by id"); 
+										while($p = pg_fetch_array($lk)){
+													
+											echo"
+												<option value=\"$p[satuan]\">$p[satuan]</option>\n";
+											}
+										echo"";	
+															  								  
+						?>				
+						</select>
+                      </div>
+					</div>
+					
+					<div class="form-group">
+					<label for="userentry" class="col-sm-4 control-label">User Entry</label>
+					  <div class="col-sm-7">
+					    <input type="text" class="form-control" name="userentry" id="userentry"value="<?php echo $_SESSION['ses_nama'];?>"readonly>
+                       </div>
+					  </div>
+					
+					<div class="form-group">
+					<label for="userentry" class="col-sm-4 control-label">Waktu Entry</label>
+                      <div class="col-sm-4">
+					   <input type="text" class="form-control" name="waktuentry" placeholder="hh:mm:ss" value="<?php echo "$jam_sekarang";?>"readonly>
+                      </div>
+					</div>
+					
+					<div class="form-group">
+					<label for="level" class="col-sm-4 control-label">Level User Entry</label>
+					  <div class="col-sm-7">
+                        <input type="text" class="form-control" name="level" id="level" value="<?php echo $_SESSION['ses_level'];?>"readonly>
+                       </div>
+					</div>
+				
+					</div><!-- /.box-body -->
+				</div>	
+				
+					<div class="form-group">
+					  <div class="col-sm-10">
+                        <label for="nb" class="col-sm-8 control-label">NB: Tanda (*) Wajib Diisikan, Jika tidak ada data isikan angka 0</label>
+                       </div>
+					</div>
+					
+		<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Data Keluarga</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table id="example3" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+									<th>No.KK</th>
+                                    <th>No.Reg</th>
+                                    <th>Nama</th>
+									<th>Lingkungan</th>
+									<th>Kelurahan</th>
+									<th>Kecamatan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                              
+                                $qu = pg_query($koneksi, "SELECT * FROM keluarga where kodekel='$_SESSION[ses_kodekel]' order by namakk");
+								while ($data = pg_fetch_array($qu)) {
+                                    ?>
+                                    <tr class="pilih5" data-id="<?php echo $data['id']; ?>" data-nokk="<?php echo $data['nokk']; ?>"data-noreg="<?php echo $data['noreg']; ?>"  data-namakk="<?php echo $data['namakk']; ?>" data-kodekel="<?php echo $data['kodekel']; ?>" data-namakel="<?php echo $data['kelurahan']; ?>" data-kodekec="<?php echo $data['kodekec']; ?>"data-namakec="<?php echo $data['kecamatan']; ?>" data-dasawisma="<?php echo $data['dasawisma']; ?>" data-lingkungan="<?php echo $data['lingkungan']; ?>">
+										
+										<td><?php echo $data['nokk']; ?></td>
+                                        <td><?php echo $data['noreg']; ?></td>
+                                        <td><?php echo $data['namakk']; ?></td>
+										 <td><?php echo $data['lingkungan']; ?></td>
+										 <td><?php echo $data['kelurahan']; ?></td>
+										 <td><?php echo $data['kecamatan']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+        </div>
+				
+				<div class="col-md-12">	
+                  <div class="box-footer">
+                    <a type="submit"  href="appmaster.php?module=industri" name="cmdindutri" class="btn btn-danger"><i class="fa fa-remove"></i> Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right"><i class="fa fa-save"></i> simpan</button>
+                  </div><!-- /.box-footer -->
+                </form>
+				</div>
+	 
+	 
+	 <?php
+
+			
+  }
+}
+?>				

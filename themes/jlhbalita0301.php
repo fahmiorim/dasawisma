@@ -1,0 +1,19 @@
+ <?php 
+ error_reporting(0);
+ session_start(); 
+if (empty($_SESSION['ses_user']) AND empty($_SESSION['ses_password'])){
+    header('location:../index.php'); 
+}
+// 
+else{
+ include "../config/koneksi.php";
+ include "../config/fungsi_terbilang.php";
+  include "../config/library.php";
+	  
+		  
+					$totbalita0301 =pg_query($koneksi, "select sum(balita) as totjlhbalita0301 from keluarga where kodekel='0301'");
+						$jlhtotbalita0301=pg_fetch_array($totbalita0301); 
+						$jumlahbalita0301=$jlhtotbalita0301[totjlhbalita0301];
+						$totjumlahbalita0301=number_format($jumlahbalita0301,0,",",".");
+					echo "$totjumlahbalita0301";
+ } ?>

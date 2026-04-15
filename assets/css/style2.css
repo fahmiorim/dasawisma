@@ -1,0 +1,63 @@
+.login-card {
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 3px 20px rgb(0 0 0 / 60%);
+    overflow: hidden;
+
+}
+
+
+
+
+
+.brand-wrapper .logo {
+    height: 66px;
+    margin-left: -30px;
+}
+
+
+.login-card-description {
+    font-size: 19px;
+    color: #000;
+    font-weight: normal;
+    margin-bottom: 23px;
+}
+
+.login-card .login-btn:hover {
+    border: 1px solid #000;
+    background-color: transparent;
+    color: #23079d;
+}
+
+.login-card .login-btn {
+    padding: 13px 20px 12px;
+    background-color:#0c1fd1 ;
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+
+body {
+    font-family: "Karla", arial, sans-serif;
+    background-color:  #fff;
+    min-height: 100vh;
+}
+
+.login-card .card-body {
+   padding: 85px 60px 60px;
+   background-image: url(../images/gradient-geometric-shape-background_78532-307.jpg);
+   background-repeat: no-repeat;
+   background-size: 825px 599px;
+ 
+
+
+}
+
+.login-card-footer-nav a {
+    font-size: 14px;
+    color: black;
+}
