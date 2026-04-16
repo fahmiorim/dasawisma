@@ -9,7 +9,14 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
 
         include "../config/koneksi.php";
         $kodekel = isset($_GET['kodekel']) ? $_GET['kodekel'] : '';
-        $query = pg_query($koneksi, " SELECT * from dasawisma where kodekel='$kodekel' AND nama_dasawisma IS NOT NULL AND nama_dasawisma != '' order by nama_dasawisma");
+        $lingkungan = isset($_GET['lingkungan']) ? $_GET['lingkungan'] : '';
+
+        if ($lingkungan) {
+            $query = pg_query($koneksi, " SELECT * from dasawisma where lingkungan='$lingkungan' AND nama_dasawisma IS NOT NULL AND nama_dasawisma != '' order by nama_dasawisma");
+        } else {
+            $query = pg_query($koneksi, " SELECT * from dasawisma where kodekel='$kodekel' AND nama_dasawisma IS NOT NULL AND nama_dasawisma != '' order by nama_dasawisma");
+        }
+
         $jsonResult = '{"data" : [ ';
         $i = 0;
         while ($data = pg_fetch_assoc($query)) {

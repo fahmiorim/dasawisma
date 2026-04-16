@@ -1,11 +1,102 @@
 <script type="text/javascript">
+    // Load lingkungan based on kelurahan
+    function loadLingkungan(kodekel, selectedValue) {
+        $.ajax({
+            url: 'ajax/lingkungan.php',
+            type: 'GET',
+            data: { kodekel: kodekel },
+            dataType: 'json',
+            success: function(data) {
+                $('#lingkungan').empty();
+                $('#lingkungan').append('<option></option>');
+                $.each(data.data, function(i, item) {
+                    $('#lingkungan').append('<option value="'+item.lingkungan+'">'+item.lingkungan+'</option>');
+                });
+                $('#lingkungan').prop('disabled', false);
+                if (selectedValue) {
+                    $('#lingkungan').val(selectedValue);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error handling
+            }
+        });
+    }
+
+    // Load dasawisma based on lingkungan
+    function loadDasawismaByLingkungan(lingkungan, selectedValue) {
+        $.ajax({
+            url: 'ajax/dasawisma.php',
+            type: 'GET',
+            data: { lingkungan: lingkungan },
+            dataType: 'json',
+            success: function(data) {
+                $('#dasawisma').empty();
+                $('#dasawisma').append('<option></option>');
+                $.each(data.data, function(i, item) {
+                    $('#dasawisma').append('<option value="'+item.nama_dasawisma+'">'+item.nama_dasawisma+'</option>');
+                });
+                $('#dasawisma').prop('disabled', false);
+                if (selectedValue) {
+                    $('#dasawisma').val(selectedValue);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error handling
+            }
+        });
+    }
+
     $(function() {
         $( "#tglentry" ).datepicker({ altFormat: 'yy-mm-dd' });
         $( "#tglentry" ).change(function() {
              $( "#tglentry" ).datepicker( "option", "dateFormat","yy-mm-dd" );
          });
+
+        // Disable lingkungan and dasawisma dropdowns by default
+        $('#lingkungan').prop('disabled', true);
+        $('#dasawisma').prop('disabled', true);
+
+        // Load dasawisma when lingkungan changes
+        $('#lingkungan').on('change', function() {
+            var lingkungan = $(this).val();
+            if (lingkungan) {
+                loadDasawismaByLingkungan(lingkungan);
+            } else {
+                $('#dasawisma').empty();
+                $('#dasawisma').append('<option></option>');
+                $('#dasawisma').prop('disabled', true);
+            }
+        });
     });
-    </script>
+
+    $(document).on('click', '.pilih6', function(e) {
+        $('#id').val($(this).attr('data-id'));
+        $('#nik').val($(this).attr('data-nik'));
+        $('#noreg').val($(this).attr('data-noreg'));
+        $('#nama').val($(this).attr('data-nama'));
+        $('#kodekel').val($(this).attr('data-kodekel'));
+        $('#namakel').val($(this).attr('data-namakel'));
+        $('#kodekec').val($(this).attr('data-kodekec'));
+        $('#namakec').val($(this).attr('data-namakec'));
+
+        var kodekel = $(this).attr('data-kodekel');
+        var dasawismaValue = $(this).attr('data-dasawisma');
+        var lingkunganValue = $(this).attr('data-lingkungan');
+
+        // Load lingkungan based on kelurahan
+        loadLingkungan(kodekel, lingkunganValue);
+
+        // After lingkungan is loaded and selected, load dasawisma
+        setTimeout(function() {
+            if (lingkunganValue) {
+                loadDasawismaByLingkungan(lingkunganValue, dasawismaValue);
+            }
+        }, 500);
+
+        $('#myModal6').modal('hide');
+    });
+</script>
 
 <?php
 error_reporting(0);
@@ -250,40 +341,18 @@ else{
 				<div class="form-group">	
 					  <label for="nama_lingkungan" class="col-sm-4 control-label">Lingkungan <span class="text-danger"> *</span></label>
 					  <div class="col-sm-7">
-                       <select class='validate[required] form-control' name='nama_lingkungan' id='lingkungan'readonly>
+                       <select class='validate[required] form-control' name='nama_lingkungan' id='lingkungan' disabled>
 						<option></option>
-						<?php
-									$lk = pg_query($koneksi, "SELECT * FROM lingkungan order by kode LIMIT 1000"); 
-										while($p = pg_fetch_array($lk)){
-													
-											echo"
-												<option value=\"$p[nama_lingkungan]\">$p[nama_lingkungan]</option>\n";
-											}
-										echo"";	
-															  
-															  
-						?>									  								  
-						</select>				
+						</select>
                       </div>
 					</div>
-					
-					<div class="form-group">	
+
+					<div class="form-group">
 					  <label for="dasawisma" class="col-sm-4 control-label">Nama Dasawisma <span class="text-danger"> *</span></label>
 					  <div class="col-sm-7">
-                       <select class='validate[required] form-control' name='dasawisma' id='dasawisma'readonly>
+                       <select class='validate[required] form-control' name='dasawisma' id='dasawisma' disabled>
 						<option></option>
-						<?php
-									$lk = pg_query($koneksi, "SELECT * FROM dasawisma order by kode LIMIT 1000"); 
-										while($p = pg_fetch_array($lk)){
-													
-											echo"
-												<option value=\"$p[nama_dasawisma]\">$p[nama_dasawisma]</option>\n";
-											}
-										echo"";	
-															  
-															  
-						?>									  								  
-						</select>				
+						</select>
                       </div>
 					</div>
 					

@@ -22,7 +22,7 @@ if (empty($_SESSION['ses_nama']) and empty($_SESSION['ses_password'])) {
         <title>e-Dasawisma | Kabupaten Batu Bara</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
-        <link href="assets/css/font-awesome.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
         <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" />
         <link href="assets/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
         <link href="assets/css/AdminLTE.css" rel="stylesheet" />

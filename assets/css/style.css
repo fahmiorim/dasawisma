@@ -1,1 +1,3 @@
-table.table > thead > tr > th { text-align: center;}
+table.table > thead > tr > th {
+  text-align: center;
+}
