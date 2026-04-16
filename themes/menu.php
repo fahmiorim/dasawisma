@@ -103,7 +103,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
             <ul class="treeview-menu">
               <li><a href="?module=kecamatan"><i class="fa fa-circle-o"></i> Data Kecamatan</a></li>
               <li><a href="?module=kelurahan"><i class="fa fa-circle-o"></i> Data Kelurahan</a></li>
-              <li><a href="?module=dasawisma2"><i class="fa fa-circle-o"></i> Data Dasawisma</a></li>
+              <li><a href="?module=dasawisma"><i class="fa fa-circle-o"></i> Data Dasawisma</a></li>
               <li><a href="?module=lingkungan"><i class="fa fa-circle-o"></i> Data Lingkungan</a></li>
             </ul>
           </li>

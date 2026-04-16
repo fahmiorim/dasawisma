@@ -11,33 +11,26 @@ switch($_GET['act']){
   // Tampil List View
   default:	
 
-$chk = $_POST['chk'];
-$chkcount = count($chk);
-
-if(!isset($chk))
+if(!isset($_GET['id']) || $_GET['id'] == "")
 {
-	
     ?>
-	
     <script>
-        alert('Opsi Belum Di pilih, Silahkan Pilih Terlebih dahulu');
-        window.location.href = 'appmaster.php?module=dasawisma';
+        alert('Data tidak ditemukan');
+        window.location.href='appmaster.php?module=dasawisma';
     </script>
     <?php
 }
 else
 {
-     for($i=0; $i<$chkcount; $i++)
-    {
-        $del = $chk[$i];
-        $sql=pg_query($koneksi,"DELETE FROM dasawisma WHERE id=".$del);
-    }
+    include "../config/koneksi.php";
+    $id = $_GET['id'];
+    $sql=pg_query($koneksi,"DELETE FROM dasawisma WHERE id=".$id);
 
     if($sql)
     {
         ?>
         <script>
-            alert('<?php echo $chkcount; ?> Baris data Berhasil di Hapus !!!');
+            alert('Data Berhasil di Hapus !!!');
             window.location.href='appmaster.php?module=dasawisma';
         </script>
         <?php
@@ -52,6 +45,6 @@ else
         <?php
     }
   }
-  }	
+  }
 }
 ?>

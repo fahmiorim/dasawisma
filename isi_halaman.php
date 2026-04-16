@@ -6,7 +6,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
   // Home (Beranda)
   if ($_GET['module'] == 'beranda') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
-      include "themes/body.php";
+      include "modul/beranda/beranda.php";
     }
   } elseif ($_GET['module'] == 'grapinput') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') {
@@ -341,36 +341,36 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
       include "modul/lingkungan/lihatlingkungan.php";
     }
   } elseif ($_GET['module'] == 'dasawisma') {
-    if ($_SESSION['ses_level'] == 'admkel') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/dasawisma/dasawisma.php";
     }
   } elseif ($_GET['module'] == 'editdasawisma') {
-    if ($_SESSION['ses_level'] == 'admkel') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/dasawisma/editdasawisma.php";
     }
   } elseif ($_GET['module'] == 'hapusdasawisma') {
-    if ($_SESSION['ses_level'] == 'admkel') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/dasawisma/hapusdasawisma.php";
     }
   } elseif ($_GET['module'] == 'lihatdasawisma') {
-    if ($_SESSION['ses_level'] == 'admkel') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/dasawisma/lihatdasawisma.php";
     }
   } elseif ($_GET['module'] == 'dasawisma2') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
-      include "modul/dasawisma2/dasawisma2.php";
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/dasawisma/dasawisma.php";
     }
   } elseif ($_GET['module'] == 'editdasawisma2') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
-      include "modul/dasawisma2/editdasawisma2.php";
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/dasawisma/editdasawisma.php";
     }
   } elseif ($_GET['module'] == 'hapusdasawisma2') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
-      include "modul/dasawisma2/hapusdasawisma2.php";
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/dasawisma/hapusdasawisma.php";
     }
   } elseif ($_GET['module'] == 'lihatdasawisma2') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
-      include "modul/dasawisma2/lihatdasawisma2.php";
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/dasawisma/lihatdasawisma.php";
     }
   } elseif ($_GET['module'] == 'datarw') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
@@ -2328,6 +2328,14 @@ elseif ($_GET['module'] == 'editbantuan') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/jlhpus0307list/lihat_jlhpus0307list.php";
     }
+  } elseif ($_GET['module'] == 'jlh3buta0307list') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/jlh3buta0307list/jlh3buta0307list.php";
+    }
+  } elseif ($_GET['module'] == 'lihatjlh3buta0307list') {
+    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
+      include "modul/jlh3buta0307list/lihat_jlh3buta0307list.php";
+    }
   } elseif ($_GET['module'] == 'jlhwus0307list') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/jlhwus0307list/jlhwus0307list.php";
@@ -2351,14 +2359,6 @@ elseif ($_GET['module'] == 'editbantuan') {
   } elseif ($_GET['module'] == 'lihatjlhlansia0307list') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
       include "modul/jlhlansia0307list/lihat_jlhlansia0307list.php";
-    }
-  } elseif ($_GET['module'] == 'jlh3buta0307list') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
-      include "modul/jlh3buta0307list/jlh3buta0307list.php";
-    }
-  } elseif ($_GET['module'] == 'lihatjlh3buta0307list') {
-    if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
-      include "modul/jlh3buta0307list/lihat_jlh3buta0307list.php";
     }
   } elseif ($_GET['module'] == 'jlhsusu0307list') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {

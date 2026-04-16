@@ -6,24 +6,24 @@ if (empty($_SESSION['ses_user']) AND empty($_SESSION['ses_password'])){
   
 }
 else{
+  include "../config/koneksi.php";
 	$aksi = "modul/dasawisma/aksi_dasawisma.php";
  $act = isset($_GET['act']) ? $_GET['act'] : ''; 
 
 
 switch($_GET['act']){
   // Tampil List View
-  default:	
-if(isset($_POST['chk'])=="")
+  default:
+if(!isset($_GET['id']) || $_GET['id'] == "")
 {
     ?>
     <script>
-         alert('Opsi Belum Di pilih');
+         alert('Data tidak ditemukan');
        window.location.href = 'appmaster.php?module=dasawisma';
     </script>
     <?php
 }
-$chk = $_POST['chk'];
-$chkcount = count($chk);
+$id = $_GET['id'];
 
 ?>
      <center><h3 class="box-title">Lihat Data Dasawisma Kabupaten Batu Bara</h3></center>
@@ -36,12 +36,9 @@ $chkcount = count($chk);
 
    <form method="POST" class="form-horizontal" enctype="multipart/form-data" action="<?php echo $aksi;?>?module=dasawisma"id="popup-validation">
 	<?php
-		for($i=0; $i<$chkcount; $i++)
-		{
-			$id = $chk[$i];
-			$res=pg_query($koneksi, "select * from dasawisma where id=".$id);
-			$r=pg_fetch_array($res);
-		?>	
+		$res=pg_query($koneksi, "select * from dasawisma where id=".$id);
+		$r=pg_fetch_array($res);
+	?>	
         <input type="hidden" name="id" value="<?php echo $r['id'];?>" />
 				<div class="col-md-6">
 					<div class="box-body">
@@ -49,14 +46,14 @@ $chkcount = count($chk);
 					<div class="form-group">
 					  <label for="kode" class="col-sm-4 control-label">Kode<span class="text-danger"> *</span></label>
                       <div class="col-sm-3">
-                        <input type="text" class="validate[required,custom[number]] form-control" readonly name="kode" placeholder="Kode" value="<?php echo $r[kode];?>"  >
+                        <input type="text" class="validate[required,custom[number]] form-control" readonly name="kode" placeholder="Kode" value="<?php echo $r['kode'];?>"  >
                       </div>
 					</div>
 					
 					 <div class="form-group">
 					  <label for="dasawisma" class="col-sm-4 control-label">Nama dasawisma<span class="text-danger"> *</span></label>
 					  <div class="col-sm-7">
-                        <input type="text" class="validate[required] form-control" name="nama_dasawisma" value="<?php echo $r[nama_dasawisma];?>" placeholder="Nama dasawisma" readonly>
+                        <input type="text" class="validate[required] form-control" name="nama_dasawisma" value="<?php echo $r['nama_dasawisma'];?>" placeholder="Nama dasawisma" readonly>
                        </div>
 					 </div>
 					
@@ -64,7 +61,7 @@ $chkcount = count($chk);
 					  <label for="nama_lingkungan" class="col-sm-4 control-label">Lingkungan <span class="text-danger"> *</span></label>
 					  <div class="col-sm-6">
                        <select class='validate[required] form-control' name='nama_lingkungan' readonly>
-						<option><?php echo $r[lingkungan];?></option>
+						<option><?php echo $r['lingkungan'];?></option>
 						<?php
 									$lk = pg_query($koneksi, "SELECT * FROM lingkungan order by kode"); 
 										while($p = pg_fetch_array($lk)){
@@ -83,7 +80,7 @@ $chkcount = count($chk);
 					 <div class="form-group">
 					  <label for="Keterangan" class="col-sm-4 control-label">Nama Ketua</label>
 					  <div class="col-sm-7">
-                        <input type="text" class="form-control" name="keterangan" value="<?php echo $r[keterangan];?>" placeholder="Nama Ketua"readonly>
+                        <input type="text" class="form-control" name="keterangan" value="<?php echo $r['keterangan'];?>" placeholder="Nama Ketua"readonly>
                        </div>
 					 </div>
 					
@@ -91,13 +88,7 @@ $chkcount = count($chk);
 					
 					
                   </div><!-- /.box-body -->
-				</div>	
-		
-		<div class="divider"></div>
-		<?php
-			
-		}
-		?>
+				</div>
         
         <div class="form-group">
             
