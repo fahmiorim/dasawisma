@@ -326,35 +326,8 @@ if (empty($_SESSION['ses_nama']) and empty($_SESSION['ses_password'])) {
             document.frm.submit();
         }
 
-        function update_records_datawarga2() {
-            document.frm.action = "appmaster.php?module=editdatawarga2";
-            document.frm.submit();
-        }
-
         function delete_records_datawarga() {
             document.frm.action = "appmaster.php?module=hapusdatawarga";
-            document.frm.submit();
-        }
-
-        //===============================================
-
-        function view_records_datawarga2() {
-            document.frm.action = "appmaster.php?module=lihatdatawarga2";
-            document.frm.submit();
-        }
-
-        function update_records_datawarga23() {
-            document.frm.action = "appmaster.php?module=editdatawarga23";
-            document.frm.submit();
-        }
-
-        function update_records_datawarga22() {
-            document.frm.action = "appmaster.php?module=editdatawarga22";
-            document.frm.submit();
-        }
-
-        function delete_records_datawarga2() {
-            document.frm.action = "appmaster.php?module=hapusdatawarga2";
             document.frm.submit();
         }
 
@@ -1368,21 +1341,6 @@ if (empty($_SESSION['ses_nama']) and empty($_SESSION['ses_password'])) {
             document.frm.submit();
         }
 
-        function delete_records_datakrt2() {
-            document.frm.action = "appmaster.php?module=hapusdatakrt2";
-            document.frm.submit();
-        }
-
-        function update_records_datakrt2() {
-            document.frm.action = "appmaster.php?module=editdatakrt2";
-            document.frm.submit();
-        }
-
-        function view_records_datakrt2() {
-            document.frm.action = "appmaster.php?module=lihatdatakrt2";
-            document.frm.submit();
-        }
-
         function view_records_jlhds0401list() {
             document.frm.action = "appmaster.php?module=lihatjlhds0401list";
             document.frm.submit();
@@ -1869,21 +1827,6 @@ if (empty($_SESSION['ses_nama']) and empty($_SESSION['ses_password'])) {
             document.frm.submit();
         }
 
-        function view_records_kehamilan2() {
-            document.frm.action = "appmaster.php?module=lihatkehamilan2";
-            document.frm.submit();
-        }
-
-        function update_records_kehamilan2() {
-            document.frm.action = "appmaster.php?module=editkehamilan2";
-            document.frm.submit();
-        }
-
-        function delete_records_kehamilan2() {
-            document.frm.action = "appmaster.php?module=hapuskehamilan2";
-            document.frm.submit();
-        }
-
         function view_records_jlhibuhamil0307list() {
             document.frm.action = "appmaster.php?module=lihatjlhibuhamil0307list";
             document.frm.submit();
@@ -2178,304 +2121,17 @@ if (empty($_SESSION['ses_nama']) and empty($_SESSION['ses_password'])) {
         </script>
 
         <script>
-            $(document).ready(function() {
-                var t = $('#example20').DataTable({
-                    "ajax": "ajax/datawarga2.php",
-                    "order": [
-                        [3, 'desc']
-                    ],
-                    "columns": [
-
-                        {
-                            "data": "id",
-                            "width": "10px",
-                            "sClass": "text-center",
-                            "orderable": false,
-                            "mRender": function(data) {
-                                return '<input  type="checkbox" name="chk[]" class="chk-box" value=' + data + '>';
-                            }
-                        },
-                        {
-                            "data": null,
-                            "width": "20px",
-                            "sClass": "text-center",
-                            "orderable": true,
-                        },
-
-                        {
-                            "data": "tgldaftar",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "noreg",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "nokrt",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "namakrt",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "nokk",
-                            "width": "200px",
-                        },
-
-                        {
-                            "data": "nik",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "nama",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "alamat",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "dasawisma",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "lingkungan",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "kelurahan",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "kecamatan",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "tempat",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "tgllahir",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "jenkel",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "jabpkk",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "stsaktif",
-                            "width": "80px",
-                        }
-                    ]
-                });
-                t.on('order.dt search.dt', function() {
-                    t.column(1, {
-                        search: 'applied',
-                        order: 'applied'
-                    }).nodes().each(function(cell, i) {
-                        cell.innerHTML = i + 1;
-                    });
-                }).draw();
-            });
+            // DataTables untuk example20 (datawarga2) tidak digunakan lagi karena datawarga menggunakan server-side rendering
         </script>
 
 
 
         <script>
-            $(document).ready(function() {
-                var t = $('#example21').DataTable({
-                    "ajax": "ajax/datakrt.php",
-                    "order": [
-                        [6, 'desc']
-                    ],
-                    "columns": [
-
-                        {
-                            "data": "id",
-                            "width": "10px",
-                            "sClass": "text-center",
-                            "orderable": false,
-                            "mRender": function(data) {
-                                return '<input  type="checkbox" name="chk[]" class="chk-box" value=' + data + '>';
-                            }
-                        },
-                        {
-                            "data": null,
-                            "width": "20px",
-                            "sClass": "text-center",
-                            "orderable": true,
-                        },
-
-                        {
-                            "data": "nokrt",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "namakrt",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "nama_dasawisma",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "nama_lingkungan",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "kelurahan",
-                            "width": "200px",
-                        },
-
-                        {
-                            "data": "kecamatan",
-                            "width": "80px",
-                        }
-                    ]
-                });
-                t.on('order.dt search.dt', function() {
-                    t.column(1, {
-                        search: 'applied',
-                        order: 'applied'
-                    }).nodes().each(function(cell, i) {
-                        cell.innerHTML = i + 1;
-                    });
-                }).draw();
-            });
+            // DataTables untuk example21 tidak digunakan lagi karena datakrt menggunakan server-side rendering seperti dasawisma
         </script>
 
         <script>
-            $(document).ready(function() {
-                var t = $('#example22').DataTable({
-                    "ajax": "ajax/datawarga.php",
-                    "order": [
-                        [3, 'desc']
-                    ],
-                    "columns": [
-
-                        {
-                            "data": "id",
-                            "width": "10px",
-                            "sClass": "text-center",
-                            "orderable": false,
-                            "mRender": function(data) {
-                                return '<input  type="checkbox" name="chk[]" class="chk-box" value=' + data + '>';
-                            }
-                        },
-                        {
-                            "data": null,
-                            "width": "20px",
-                            "sClass": "text-center",
-                            "orderable": true,
-                        },
-
-                        {
-                            "data": "tgldaftar",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "noreg",
-                            "width": "70px",
-                        },
-                        {
-                            "data": "nokrt",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "namakrt",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "nokk",
-                            "width": "200px",
-                        },
-
-                        {
-                            "data": "nik",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "nama",
-                            "width": "80px",
-                        },
-                        {
-                            "data": "tempat",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "tgllahir",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "jenkel",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "alamat_domisili",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "alamat_ktp",
-                            "width": "80px",
-                        },
-
-                        {
-                            "data": "dasawisma",
-                            "width": "80px",
-                        },
-                        {
-                            "data": "lingkungan",
-                            "width": "80px",
-                        },
-                        {
-                            "data": "kelurahan",
-                            "width": "80px",
-                        },
-
-
-                        {
-                            "data": "kecamatan",
-                            "width": "80px",
-                        }
-
-                    ]
-                });
-                t.on('order.dt search.dt', function() {
-                    t.column(1, {
-                        search: 'applied',
-                        order: 'applied'
-                    }).nodes().each(function(cell, i) {
-                        cell.innerHTML = i + 1;
-                    });
-                }).draw();
-            });
+            // DataTables untuk example22 tidak digunakan lagi karena datawarga menggunakan server-side rendering seperti dasawisma
         </script>
 
         <script>

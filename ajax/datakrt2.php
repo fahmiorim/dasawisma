@@ -3,12 +3,10 @@ session_start();
 if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     echo "<script>alert('Silahkan Login Terlebih Dahulu'); window.location = 'index.php'</script>";
 } else {
-?>	
-<?php
     if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')) {
 
         include "../config/koneksi.php";
-        $query = pg_query($koneksi, " SELECT * from datakrt where kodekel='".$_SESSION['ses_kodekel']."' order by nama_lingkungan");
+        $query = pg_query($koneksi, " SELECT * from datakrt where namakrt IS NOT NULL AND namakrt != '' order by nama_lingkungan");
         if (!$query) {
             echo json_encode(['error' => 'Query failed: ' . pg_last_error($koneksi)]);
             exit;
