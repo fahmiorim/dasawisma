@@ -47,9 +47,10 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
 				</div>
 				
 				<div class='box-body'>
-					<div style="text-align:right; margin-bottom:10px;">
-						<a class="btn bg-green" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
-						<a class="btn bg-purple" href="?module=mesin&act=tambahmesin"><i class="fa fa-plus"></i> Tambah</a>
+					<div style="text-align:right">
+						<a  class="btn bg-green margin"  data-toggle="tooltip" data-placement="top" title="Beranda" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
+						<a  class="btn bg-blue margin" data-toggle="tooltip" data-placement="top" title="Print Laporan" href="?module=lapmesin" target="_blank"><i class="fa fa-print"></i> Print Laporan</a>
+						<a class="btn bg-purple margin" href="?module=mesin&act=tambahmesin"><i class="fa fa-plus"></i> Tambah</a>
 					</div>
 
 					<div class="table-responsive">

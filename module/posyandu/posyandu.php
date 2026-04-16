@@ -46,10 +46,13 @@ else{
 		</div>
 		
 		<div class='box-body'>
-			<div style="text-align:right; margin-bottom:10px;">
-				<a class="btn bg-green" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
-				<a class="btn bg-purple" href="?module=posyandu&act=tambahposyandu"><i class="fa fa-plus"></i> Tambah</a>
-			</div>
+				<div style="text-align:right">
+			 <a  class="btn bg-green margin"  data-toggle="tooltip" data-placement="top" title="Beranda" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
+          <a  class="btn bg-blue margin" data-toggle="tooltip" data-placement="top" title="Print Laporan" href="?module=lapposyandu" target="_blank"><i class="fa fa-print"></i> Print Laporan</a>
+          <?php if ($_SESSION['ses_level'] == 'admkel') { ?>
+          <a  class="btn bg-purple margin" data-toggle="tooltip" data-placement="top" title="Tambah" href="?module=posyandu&act=tambahposyandu"><i class="fa fa-send"></i> Tambah</a>
+          <?php } ?>
+		</div>
 
 			<div class="table-responsive">
 				<table class='table table-bordered table-striped'>

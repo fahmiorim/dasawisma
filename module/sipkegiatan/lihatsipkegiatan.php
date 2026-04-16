@@ -711,6 +711,9 @@ $id = $_GET['id'];
         <div class="form-group">
                <div class="col-sm-offset-2 col-sm-5">
                
+				 <a class="btn btn-primary"  title="Cetak"  href="?module=lapsipkegiatan&id=<?php echo $r['id']; ?>" target="_blank"><i class="fa fa-print"></i>
+                    Cetak
+                </a>
 				 <a class="btn btn-danger"  title="Kembali"  onclick="self.history.back()"><i class="fa fa-remove"></i>
                     Kembali
                 </a>

@@ -37,7 +37,7 @@ else{
         }	  
 		
 	 
-	  Uploadfoto($nama_file_unik ,'../../img/foto_warga/');
+	  Uploadfoto($nama_file_unik ,'../../assets/img/foto_warga/');
 	
 	 $syarat1=$_POST[cek1];
 	 $syarat2=$_POST[cek2];
@@ -332,11 +332,11 @@ elseif ($module=='datawarga' AND $act=='update2'){
           $namafile = $k['fotowarga'];
           
           // hapus filenya
-          unlink("../../img/foto_warga/$namafile");   
+          unlink("../../assets/img/foto_warga/$namafile");   
         } 
 		 
 	 
-	  Uploadfoto($nama_file_unik ,'../../img/foto_warga/');
+	  Uploadfoto($nama_file_unik ,'../../assets/img/foto_warga/');
 		
 		
 							   

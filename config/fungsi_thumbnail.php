@@ -3,7 +3,7 @@ error_reporting(0);
 // Upload gambar untuk berita, album, galeri foto, banner
 function Uploadfoto($fupload_name){
   //direktori gambar
-  $vdir_upload = "../../img/foto_warga/";
+  $vdir_upload = "../../assets/img/foto_warga/";
   $vfile_upload = $vdir_upload . $fupload_name;
   $imageType = $_FILES["foto_warga"]["type"];
 

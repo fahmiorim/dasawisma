@@ -1,0 +1,200 @@
+<?php
+error_reporting(0);
+session_start();
+if (empty($_SESSION['ses_user']) AND empty($_SESSION['ses_password'])){
+ header('location:../../../404.php');
+  
+}
+else{
+	$aksi = "module/user/aksi_user.php";
+ $act = isset($_GET['act']) ? $_GET['act'] : ''; 
+
+
+switch($_GET['act']){
+  // Tampil List View
+  default:	
+if(!isset($_GET['id']) || $_GET['id'] == "")
+{
+    ?>
+    <script>
+         alert('Data tidak ditemukan');
+       window.location.href = 'appmaster.php?module=user';
+    </script>
+    <?php
+}
+$id = $_GET['id'];
+
+?>
+     <center><h3 class="box-title">Edit User</h3></center>
+ 
+			<div class="box box-info">
+
+                <div class="box-header with-border">
+                  
+                </div><!-- /.box-header -->
+
+   <form method="POST" class="form-horizontal" enctype="multipart/form-data" action="<?php echo $aksi;?>?module=user&act=update&id=<?php echo $id; ?>">
+	<?php
+		$res=pg_query($koneksi, "select * from users where id=".$id);
+		$r=pg_fetch_array($res);
+	?>	
+        <input type="hidden" name="id" value="<?php echo $r['id'];?>" />
+        <div class="col-md-6">
+                  <div class="box-body">
+				  
+				  <div class="form-group">
+					  <label for="tgldaftar" class="col-sm-4 control-label">Tgl. Daftar <span class="text-danger"> *</span></label>
+                      <div class="col-sm-5">
+                        <input type="text" class="validate[required,custom[date]] form-control" id="tanggal" name="tgldaftar" placeholder="YYYY-MM-DD" value="<?php echo $r['tgldaftar'];?>" readonly>
+                      </div>
+					</div>
+				  
+                    <div class="form-group">
+                      <label for="username" class="col-sm-4 control-label">Username <span class="bs-label label-danger"> *</span></small></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="username" value="<?php echo $r['username']; ?>" placeholder="Username" >
+						</div>
+					</div>
+					
+					<div class="form-group">
+					 <label for="password" class="col-sm-4 control-label">Password <span class="bs-label label-danger"> *</span></small></label>
+					  <div class="col-sm-7">
+                        <input type="password" class="validate[required] form-control" name="password" placeholder="Password">
+                      </div>
+                    </div>
+					<div class="form-group">
+					 <label for="nik" class="col-sm-4 control-label">NIK <span class="bs-label label-danger"> *</span></small></label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="nik" value="<?php echo $r['nik'];?>"placeholder="NIK" >
+                      </div>
+                    </div>
+					<div class="form-group">
+					 <label for="nama" class="col-sm-4 control-label">Nama Lengkap <span class="bs-label label-danger"> *</span></small></label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="nama_lengkap" value="<?php echo $r['nama_lengkap']; ?>" placeholder="Nama Lengkap" >
+                      </div>
+                    </div>
+					
+					<div class="form-group">
+					<label for="kode" class="col-sm-4 control-label">Kode Kelurahan <span class="text-danger"> *</span></label>
+					  <div class="col-sm-5">
+					  <input type="hidden"  id="id" class="form-control" />
+                        <input type="text" class="validate[required,custom[number]] form-control" name="kode" id="kode" placeholder="kode" value="<?php echo $r['kodekel']; ?>" readonly>
+                      </div><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2"><i class="fa fa-search"></i> Cari</button>
+					 </div>
+					
+					<div class="form-group">
+					  <label for="nama_kel" class="col-sm-4 control-label">Kelurahan</label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="nama_kel" id="nama_kel" value="<?php echo $r['namakel']; ?>" placeholder="Kelurahan" readonly>
+                       </div>
+					 </div>
+					 			 
+					 <div class="form-group">
+					  <label for="kodekec" class="col-sm-4 control-label">Kode Kecamatan</label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="kodekec" id="kodekec" placeholder="Kode Kecamatan" value="<?php echo $r['kodekec']; ?>" readonly>
+                       </div>
+					 </div>
+					 
+					 <div class="form-group">
+					  <label for="nama_kec" class="col-sm-4 control-label">Kecamatan</label>
+					  <div class="col-sm-7">
+                        <input type="text" class="validate[required] form-control" name="nama_kec" id="nama_kec" placeholder="Kecamatan" value="<?php echo $r['namakec']; ?>" readonly>
+                       </div>
+					 </div>
+					
+					<div class="form-group">
+					 <label for="nohp" class="col-sm-4 control-label">No.HP/Telepon</label>
+					  <div class="col-sm-7">
+                        <input type="text" class="form-control" name="nohp" placeholder="No.HP/Telepon" value="<?php echo $r['nohp']; ?>">
+                      </div>
+                    </div>
+					
+					<div class="form-group">	
+					  <label for="level" class="col-sm-4 control-label">Level <span class="bs-label label-danger"> *</span></small></label>
+					  <div class="col-sm-7">
+                       <select class='validate[required] form-control' name='level' id='level'>
+						<option><?php echo $r['level']; ?></option>
+						<?php
+									$level = pg_query($koneksi, "SELECT * FROM hakakses order by id"); 
+										while($p = pg_fetch_array($level)){
+													
+											echo"
+												<option value=\"$p[nama_hak_ases]\">$p[nama_hak_ases]</option>\n";
+											}
+										echo"";	
+															  
+															  
+						?>									  								  
+						</select>				
+                      </div>
+					</div>
+					
+                  </div><!-- /.box-body -->
+				</div>	
+				
+        
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Data Kelurahan</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table id="example3" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Kel</th>
+                                    <th>Kelurahan</th>
+									<th>Alamat</th>
+									<th>Kode Kec</th>
+									<th>Kecamatan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                              
+                                $qu = pg_query($koneksi, "SELECT * FROM kelurahan  ");
+								while ($data = pg_fetch_array($qu)) {
+                                    ?>
+                                    <tr class="pilih2" data-id="<?php echo $data['id']; ?>" data-kode="<?php echo $data['kode']; ?>"  data-nama_kel="<?php echo $data['nama_kel']; ?>" data-kodekec="<?php echo $data['kodekec']; ?>" data-nama_kec="<?php echo $data['nama_kec']; ?>">
+										
+                                        <td><?php echo $data['kode']; ?></td>
+                                        <td><?php echo $data['nama_kel']; ?></td>
+										 <td><?php echo $data['alamat']; ?></td>
+										 <td><?php echo $data['kodekec']; ?></td>
+										 <td><?php echo $data['nama_kec']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-5">
+                <button class="btn bg-purple btn-flat margin"  title="Edit" ><i class="fa fa-pencil"></i>
+                   Edit
+                </button>
+				
+				 <a class="btn btn-danger"  title="Hapus"  onclick="self.history.back()"><i class="fa fa-remove"></i>
+                    Batal
+                </a>
+            </div>
+        </div>
+		
+
+    </form>
+  </div>
+
+	<?php
+		break;
+  }
+}
+?>

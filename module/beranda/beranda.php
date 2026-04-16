@@ -64,8 +64,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
       <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
       <li class="active">Dashboard</li>
     </ol>
-
-
   </section>
 
   <!-- Main content -->
@@ -223,13 +221,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
   </section><!-- /.Left col -->
   <!-- right col (We are only adding the ID to make the widgets sortable)-->
   <section class="col-lg-5 connectedSortable">
-
-
-
   </section><!-- /.content -->
-
-
-
 
 <?php
 }

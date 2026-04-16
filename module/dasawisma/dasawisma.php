@@ -55,10 +55,20 @@ else{
                   <div class='box-header'>
                     <h3 class='box-title'><?php echo $title; ?></h3>
                   </div>
+                
                 <div class='box-body'>
 				<form method="post" name="frm">
 				<div style="text-align:right">
 			 <a  class="btn bg-green margin"  data-toggle="tooltip" data-placement="top" title="Beranda" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
+          <?php 
+          $scope = 'kel';
+          if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
+            $scope = 'kota';
+          } elseif ($_SESSION['ses_level'] == 'admkec') {
+            $scope = 'kec';
+          }
+          ?>
+          <a  class="btn bg-blue margin" data-toggle="tooltip" data-placement="top" title="Print Laporan" href="?module=lapdasawisma" target="_blank"><i class="fa fa-print"></i> Print Laporan</a>
           <?php if ($_SESSION['ses_level'] == 'admkel') { ?>
           <a  class="btn bg-purple margin" data-toggle="tooltip" data-placement="top" title="Tambah" href="?module=dasawisma&act=tambahdasawisma"><i class="fa fa-send"></i> Tambah</a>
           <?php } ?>

@@ -48,6 +48,7 @@ else{
 		<div class='box-body'>
 			<div style="text-align:right; margin-bottom:10px;">
 				<a class="btn bg-green" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
+				<a class="btn bg-blue" href="?module=lappelatihan" target="_blank"><i class="fa fa-print"></i> Print Laporan</a>
 				<a class="btn bg-purple" href="?module=pelatihan&act=tambahpelatihan"><i class="fa fa-plus"></i> Tambah</a>
 			</div>
 

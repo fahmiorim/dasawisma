@@ -14,6 +14,8 @@ if (empty($_SESSION['ses_user']) AND empty($_SESSION['ses_password'])){
   header('location:404.php');
 }
 else{
+	include "../config/koneksi.php";
+	
 	$aksi = "module/sipkegiatan/aksi_sipkegiatan.php";
 	 // mengatasi variabel yang belum di definisikan (notice undefined index)
   $act = isset($_GET['act']) ? $_GET['act'] : ''; 
@@ -41,7 +43,7 @@ else{
 
 	echo"
 	
-	<div class='box'>
+
                 <div class='box-header'>
                   <h2 class='box-title'>DATA HASIL KEGIATAN POSYANDU</h2>";
                 ?>
@@ -75,7 +77,10 @@ else{
 					<?php  
 					$no = $posisi + 1;
 					$lingk = pg_query($koneksi, $query_data);
-					while ($lk = pg_fetch_array($lingk)){       
+					if (pg_num_rows($lingk) == 0) {
+						echo "<tr><td colspan='9' style='text-align:center; padding: 20px;'>Tidak ada data</td></tr>";
+					} else {
+						while ($lk = pg_fetch_array($lingk)){       
 			?>
                       <tr>
 						<td><?php echo $no; ?></td>
@@ -95,6 +100,7 @@ else{
 					  <?php
                 $no++;
               }
+					}
               ?> 
                     </tbody>
                     
