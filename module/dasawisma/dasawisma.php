@@ -22,25 +22,54 @@ else{
 
   switch($act){
     default:
-    // Tentukan query berdasarkan role
+    // Filter parameters
+    $filter_kecamatan = isset($_GET['filter_kecamatan']) ? $_GET['filter_kecamatan'] : '';
+    $filter_kelurahan = isset($_GET['filter_kelurahan']) ? $_GET['filter_kelurahan'] : '';
+    $filter_lingkungan = isset($_GET['filter_lingkungan']) ? $_GET['filter_lingkungan'] : '';
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    
+    // Build WHERE clause
+    $where_conditions = [];
+    $where_conditions[] = "nama_dasawisma IS NOT NULL AND nama_dasawisma != ''";
+    
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
       // Admin/Admpkk: semua data dengan pagination
-      $count_query = pg_query($koneksi, "SELECT COUNT(*) as total FROM dasawisma WHERE nama_dasawisma IS NOT NULL AND nama_dasawisma != ''");
-      if (!$count_query) {
-        echo "Error count query: " . pg_last_error($koneksi);
+      if (!empty($filter_kecamatan)) {
+        $where_conditions[] = "kecamatan = '" . pg_escape_string($koneksi, $filter_kecamatan) . "'";
       }
-      $count_result = pg_fetch_array($count_query);
-      $count = $count_result['total'];
+      if (!empty($filter_kelurahan)) {
+        $where_conditions[] = "kelurahan = '" . pg_escape_string($koneksi, $filter_kelurahan) . "'";
+      }
+      if (!empty($filter_lingkungan)) {
+        $where_conditions[] = "lingkungan = '" . pg_escape_string($koneksi, $filter_lingkungan) . "'";
+      }
+      if (!empty($search)) {
+        $where_conditions[] = "(nama_dasawisma ILIKE '%" . pg_escape_string($koneksi, $search) . "%' OR kode ILIKE '%" . pg_escape_string($koneksi, $search) . "%' OR keterangan ILIKE '%" . pg_escape_string($koneksi, $search) . "%')";
+      }
       $title = "DATA DASAWISMA KABUPATEN BATU BARA";
       $use_pagination = true;
     } else {
       // Kelurahan: filter by kodekel dengan pagination
-      $count_query = pg_query($koneksi, "SELECT COUNT(*) as total FROM dasawisma WHERE kodekel='$_SESSION[ses_kodekel]' AND nama_dasawisma IS NOT NULL AND nama_dasawisma != ''");
-      $count_result = pg_fetch_array($count_query);
-      $count = $count_result['total'];
+      $where_conditions[] = "kodekel='$_SESSION[ses_kodekel]'";
+      if (!empty($filter_lingkungan)) {
+        $where_conditions[] = "lingkungan = '" . pg_escape_string($koneksi, $filter_lingkungan) . "'";
+      }
+      if (!empty($search)) {
+        $where_conditions[] = "(nama_dasawisma ILIKE '%" . pg_escape_string($koneksi, $search) . "%' OR kode ILIKE '%" . pg_escape_string($koneksi, $search) . "%' OR keterangan ILIKE '%" . pg_escape_string($koneksi, $search) . "%')";
+      }
       $title = "DATA DASAWISMA DESA " . $_SESSION['ses_namakel'];
       $use_pagination = true;
     }
+    
+    $where_clause = implode(' AND ', $where_conditions);
+    
+    // Count query
+    $count_query = pg_query($koneksi, "SELECT COUNT(*) as total FROM dasawisma WHERE $where_clause");
+    if (!$count_query) {
+      echo "Error count query: " . pg_last_error($koneksi);
+    }
+    $count_result = pg_fetch_array($count_query);
+    $count = $count_result['total'];
 
     // Inisialisasi variabel pagination untuk semua role
     $batas = 10;
@@ -57,7 +86,7 @@ else{
                   </div>
                 
                 <div class='box-body'>
-				<form method="post" name="frm">
+				<form method="get" name="frm">
 				<div style="text-align:right">
 			 <a  class="btn bg-green margin"  data-toggle="tooltip" data-placement="top" title="Beranda" href="?module=beranda"><i class="fa fa-home"></i> Beranda</a>
           <?php 
@@ -72,7 +101,104 @@ else{
           <?php if ($_SESSION['ses_level'] == 'admkel') { ?>
           <a  class="btn bg-purple margin" data-toggle="tooltip" data-placement="top" title="Tambah" href="?module=dasawisma&act=tambahdasawisma"><i class="fa fa-send"></i> Tambah</a>
           <?php } ?>
+          <a  class="btn bg-orange margin" data-toggle="tooltip" data-placement="top" title="Reset Filter" href="?module=dasawisma"><i class="fa fa-refresh"></i> Reset</a>
 		</div>
+		
+		<!-- Filter Section -->
+		<div class="row" style="margin-bottom: 15px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+		  <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
+		  <div class="col-md-3">
+		    <label>Filter Kecamatan:</label>
+		    <select name="filter_kecamatan" class="form-control" onchange="this.form.submit()">
+		      <option value="">Semua Kecamatan</option>
+		      <?php
+		      $kec_query = pg_query($koneksi, "SELECT DISTINCT kecamatan FROM dasawisma WHERE kecamatan IS NOT NULL ORDER BY kecamatan");
+		      while ($kec = pg_fetch_array($kec_query)) {
+		        $selected = ($filter_kecamatan == $kec['kecamatan']) ? 'selected' : '';
+		        echo "<option value='{$kec['kecamatan']}' $selected>{$kec['kecamatan']}</option>";
+		      }
+		      ?>
+		    </select>
+		  </div>
+		  <?php } ?>
+		  <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
+		  <div class="col-md-3">
+		    <label>Filter Kelurahan:</label>
+		    <select name="filter_kelurahan" class="form-control" id="filter_kelurahan" onchange="this.form.submit()">
+		      <option value="">Semua Kelurahan</option>
+		      <?php
+		      $kel_query = pg_query($koneksi, "SELECT DISTINCT kelurahan, kecamatan FROM dasawisma WHERE kelurahan IS NOT NULL ORDER BY kelurahan");
+		      while ($kel = pg_fetch_array($kel_query)) {
+		        $selected = ($filter_kelurahan == $kel['kelurahan']) ? 'selected' : '';
+		        echo "<option value='{$kel['kelurahan']}' data-kecamatan='{$kel['kecamatan']}' $selected>{$kel['kelurahan']}</option>";
+		      }
+		      ?>
+		    </select>
+		  </div>
+		  <?php } ?>
+		  <div class="col-md-3">
+		    <label>Filter Lingkungan:</label>
+		    <select name="filter_lingkungan" class="form-control" onchange="this.form.submit()">
+		      <option value="">Semua Lingkungan</option>
+		      <?php
+		      $lingkungan_query = pg_query($koneksi, "SELECT DISTINCT lingkungan FROM dasawisma WHERE lingkungan IS NOT NULL ORDER BY lingkungan");
+		      while ($ling = pg_fetch_array($lingkungan_query)) {
+		        $selected = ($filter_lingkungan == $ling['lingkungan']) ? 'selected' : '';
+		        echo "<option value='{$ling['lingkungan']}' $selected>{$ling['lingkungan']}</option>";
+		      }
+		      ?>
+		    </select>
+		  </div>
+		  <div class="col-md-3">
+		    <label>Cari:</label>
+		    <input type="text" name="search" class="form-control" placeholder="Cari nama, kode, atau ketua..." value="<?php echo htmlspecialchars($search); ?>">
+		    <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px;"><i class="fa fa-search"></i> Cari</button>
+		  </div>
+		</div>
+		<input type="hidden" name="module" value="dasawisma">
+		
+		<script>
+		// Cascading filter: Kelurahan based on Kecamatan
+		document.addEventListener('DOMContentLoaded', function() {
+			var kecamatanSelect = document.querySelector('select[name="filter_kecamatan"]');
+			var kelurahanSelect = document.querySelector('select[name="filter_kelurahan"]');
+			
+			if (kecamatanSelect && kelurahanSelect) {
+				// Store all kelurahan options
+				var allKelurahanOptions = Array.from(kelurahanSelect.options).slice(1); // Skip first "Semua Kelurahan" option
+				
+				function filterKelurahan() {
+					var selectedKecamatan = kecamatanSelect.value;
+					
+					// Clear kelurahan options except first
+					kelurahanSelect.innerHTML = '<option value="">Semua Kelurahan</option>';
+					
+					if (selectedKecamatan) {
+						// Filter kelurahan options based on selected kecamatan
+						allKelurahanOptions.forEach(function(option) {
+							if (option.getAttribute('data-kecamatan') === selectedKecamatan) {
+								kelurahanSelect.appendChild(option.cloneNode(true));
+							}
+						});
+					} else {
+						// Restore all kelurahan options
+						allKelurahanOptions.forEach(function(option) {
+							kelurahanSelect.appendChild(option.cloneNode(true));
+						});
+					}
+				}
+				
+				kecamatanSelect.addEventListener('change', function() {
+					filterKelurahan();
+					// Clear kelurahan selection when kecamatan changes
+					kelurahanSelect.value = '';
+				});
+				
+				// Initial filtering based on selected kecamatan
+				filterKelurahan();
+			}
+		});
+		</script>
 				<div class="box-body table-responsive no-padding">
                   <table id='example1' class='table table-bordered table-striped'>
                     <thead>
@@ -93,9 +219,9 @@ else{
           
           // Query berdasarkan role
           if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
-            $lingk = pg_query($koneksi, "SELECT id, kode, nama_dasawisma, lingkungan, kelurahan, kecamatan, keterangan FROM dasawisma WHERE nama_dasawisma IS NOT NULL AND nama_dasawisma != '' ORDER BY kelurahan, lingkungan DESC LIMIT $batas OFFSET $posisi");
+            $lingk = pg_query($koneksi, "SELECT id, kode, nama_dasawisma, lingkungan, kelurahan, kecamatan, keterangan FROM dasawisma WHERE $where_clause ORDER BY kelurahan, lingkungan DESC LIMIT $batas OFFSET $posisi");
           } else {
-            $lingk = pg_query($koneksi, "SELECT id, kode, nama_dasawisma, lingkungan, kelurahan, kecamatan, keterangan FROM dasawisma WHERE kodekel='$_SESSION[ses_kodekel]' AND nama_dasawisma IS NOT NULL AND nama_dasawisma != '' ORDER BY lingkungan DESC LIMIT $batas OFFSET $posisi");
+            $lingk = pg_query($koneksi, "SELECT id, kode, nama_dasawisma, lingkungan, kelurahan, kecamatan, keterangan FROM dasawisma WHERE $where_clause ORDER BY lingkungan DESC LIMIT $batas OFFSET $posisi");
           }
           if (!$lingk) {
             echo "<tr><td colspan='8'>Error query</td></tr>";
@@ -146,17 +272,17 @@ else{
                       
                       if($hal > 1){
                         $prev = $hal - 1;
-                        echo "<li><a href=\"?module=dasawisma&hal=1\">&laquo;</a></li>";
-                        echo "<li><a href=\"?module=dasawisma&hal=$prev\">&lsaquo;</a></li>";
+                        echo "<li><a href=\"?module=dasawisma&hal=1&filter_kecamatan=$filter_kecamatan&filter_kelurahan=$filter_kelurahan&filter_lingkungan=$filter_lingkungan&search=$search\">&laquo;</a></li>";
+                        echo "<li><a href=\"?module=dasawisma&hal=$prev&filter_kecamatan=$filter_kecamatan&filter_kelurahan=$filter_kelurahan&filter_lingkungan=$filter_lingkungan&search=$search\">&lsaquo;</a></li>";
                       }
                       for($i=$start; $i<=$end; $i++){
                         $aktif = ($i == $hal) ? "class=\"active\"" : "";
-                        echo "<li $aktif><a href=\"?module=dasawisma&hal=$i\">$i</a></li>";
+                        echo "<li $aktif><a href=\"?module=dasawisma&hal=$i&filter_kecamatan=$filter_kecamatan&filter_kelurahan=$filter_kelurahan&filter_lingkungan=$filter_lingkungan&search=$search\">$i</a></li>";
                       }
                       if($hal < $jmlhalaman){
                         $next = $hal + 1;
-                        echo "<li><a href=\"?module=dasawisma&hal=$next\">&rsaquo;</a></li>";
-                        echo "<li><a href=\"?module=dasawisma&hal=$jmlhalaman\">&raquo;</a></li>";
+                        echo "<li><a href=\"?module=dasawisma&hal=$next&filter_kecamatan=$filter_kecamatan&filter_kelurahan=$filter_kelurahan&filter_lingkungan=$filter_lingkungan&search=$search\">&rsaquo;</a></li>";
+                        echo "<li><a href=\"?module=dasawisma&hal=$jmlhalaman&filter_kecamatan=$filter_kecamatan&filter_kelurahan=$filter_kelurahan&filter_lingkungan=$filter_lingkungan&search=$search\">&raquo;</a></li>";
                       }
                       ?>
                     </ul>
