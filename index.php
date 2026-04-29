@@ -152,15 +152,18 @@ max-h-[90vh]">
               <div class="p-1 custom-scrollbar max-h-48 overflow-y-auto">
 
                 <?php
+
                 echo "<div onclick=\"selectTahun('$thn_sekarang')\" 
 class=\"px-4 py-3 text-sm hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer rounded-xl transition-colors font-medium\">
 $thn_sekarang
 </div>";
+                $thn = pg_query($koneksi, "SELECT * FROM tahunaktif ORDER BY id");
 
-                for ($i = 2020; $i <= $thn_sekarang; $i++) {
-                  echo "<div onclick=\"selectTahun('$i')\" 
+                while ($p = pg_fetch_array($thn)) {
+
+                  echo "<div onclick=\"selectTahun('$p[thnaktif]')\" 
     class=\"px-4 py-3 text-sm hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer rounded-xl transition-colors font-medium\">
-    $i
+    $p[thnaktif]
     </div>";
                 }
                 ?>
