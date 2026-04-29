@@ -5,7 +5,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
   include "../config/library.php";
   include "../config/koneksi.php";
 
-  // Query data berdasarkan role
   if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
     $totkecamatan = pg_query($koneksi, "SELECT COUNT(*) as total FROM kecamatan");
     $totkecamatan = pg_fetch_result($totkecamatan, 0, 'total');
@@ -54,7 +53,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
   }
 ?>
 
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Dashboard
@@ -66,139 +64,122 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     </ol>
   </section>
 
-  <!-- Main content -->
   <section class="content">
-    <!-- Small boxes (Stat box) -->
     <div class="row">
-          <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-              <div class="inner">
-
-                <h3><?php echo isset($totkecamatan) ? number_format($totkecamatan, 0, ',', '.') : 0; ?></h3>
-
-                <p>Data Kecamatan</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-university"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnyaa <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
+      <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
+        <div class="col-lg-4 col-xs-6">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3><?php echo isset($totkecamatan) ? number_format($totkecamatan, 0, ',', '.') : 0; ?></h3>
+              <p>Data Kecamatan</p>
             </div>
-          </div>
-          <?php } ?>
-          <!-- ./col -->
-          <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-              <div class="inner">
-                <h3><?php echo isset($totkelurahan) ? number_format($totkelurahan, 0, ',', '.') : 0; ?></h3>
-
-                <p>Data Kelurahan</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-home"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
+            <div class="icon">
+              <i class="fa fa-university"></i>
             </div>
+            <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
+              <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnyaa <i class="fa fa-arrow-circle-right"></i></a>
+            <?php } ?>
           </div>
-          <?php } ?>
-          <!-- ./col -->
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-              <div class="inner">
-                <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
-                  <h3><?php echo isset($totdasawismakec) ? number_format($totdasawismakec, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
-                  <h3><?php echo isset($totdasawisma) ? number_format($totdasawisma, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <p>Data Dasawisma</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-book"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-              <div class="inner">
-                <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
-                  <h3><?php echo isset($totkrtkec) ? number_format($totkrtkec, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
-                  <h3><?php echo isset($totkrt) ? number_format($totkrt, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <p>Data Kepala Rumah Tangga</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-user"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-primary col-centered">
-              <div class="inner">
-                <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
-                  <h3><?php echo isset($totwargakec) ? number_format($totwargakec, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
-                  <h3><?php echo isset($totwarga) ? number_format($totwarga, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-
-                <p>Data Warga</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-users"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-4 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-maroon">
-              <div class="inner">
-                <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
-                  <h3><?php echo isset($totkeluargakec) ? number_format($totkeluargakec, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-                <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
-                  <h3><?php echo isset($totkeluarga) ? number_format($totkeluarga, 0, ',', '.') : 0; ?></h3>
-                <?php } ?>
-
-                <p>Data Keluarga</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-stalker"></i>
-              </div>
-              <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
-                <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-              <?php } ?>
-            </div>
-          </div>
-
-          <!-- ./col -->
         </div>
+      <?php } ?>
 
-    </div><!-- /.row -->
+      <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
+        <div class="col-lg-4 col-xs-6">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?php echo isset($totkelurahan) ? number_format($totkelurahan, 0, ',', '.') : 0; ?></h3>
+
+              <p>Data Kelurahan</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-home"></i>
+            </div>
+            <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
+              <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+            <?php } ?>
+          </div>
+        </div>
+      <?php } ?>
+
+      <div class="col-lg-4 col-xs-6">
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
+              <h3><?php echo isset($totdasawismakec) ? number_format($totdasawismakec, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
+              <h3><?php echo isset($totdasawisma) ? number_format($totdasawisma, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <p>Data Dasawisma</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-book"></i>
+          </div>
+          <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
+            <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6">
+        <div class="small-box bg-red">
+          <div class="inner">
+            <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
+              <h3><?php echo isset($totkrtkec) ? number_format($totkrtkec, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
+              <h3><?php echo isset($totkrt) ? number_format($totkrt, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <p>Data Kepala Rumah Tangga</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-user"></i>
+          </div>
+          <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') { ?>
+            <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6">
+        <div class="small-box bg-primary col-centered">
+          <div class="inner">
+            <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
+              <h3><?php echo isset($totwargakec) ? number_format($totwargakec, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
+              <h3><?php echo isset($totwarga) ? number_format($totwarga, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+
+            <p>Data Warga</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-users"></i>
+          </div>
+          <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
+            <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6">
+        <div class="small-box bg-maroon">
+          <div class="inner">
+            <?php if ($_SESSION['ses_level'] == 'admkec') { ?>
+              <h3><?php echo isset($totkeluargakec) ? number_format($totkeluargakec, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+            <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') { ?>
+              <h3><?php echo isset($totkeluarga) ? number_format($totkeluarga, 0, ',', '.') : 0; ?></h3>
+            <?php } ?>
+
+            <p>Data Keluarga</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-stalker"></i>
+          </div>
+          <?php if ($_SESSION['ses_level'] == 'admin'  or $_SESSION['ses_level'] == 'admpkk') { ?>
+            <a href="appmaster.php?module=beranda" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
     <div class="col-xs-12">
       <div class="box box-blue">
         <div class="box-header with-border"><i class="fa fa-bullhorn"></i><b>Pengumuman</b>
@@ -211,8 +192,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
         </blockquote>
       </div>
     </div>
-
-  </section><!-- /.content -->
+  </section>
 
 <?php
 }

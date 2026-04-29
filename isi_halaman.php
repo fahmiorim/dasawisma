@@ -18,19 +18,17 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') {
       include "module/grafik/grafikdatadesa.php";
     }
-  }
-  elseif ($_GET['module'] == 'graphbantuan') {
+  } elseif ($_GET['module'] == 'graphbantuan') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') {
       include "module/grafik/grafikbantuankec.php";
     }
-  }
-  elseif ($_GET['module'] == 'graphbantuan1') {
+  } elseif ($_GET['module'] == 'graphbantuan1') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') {
       include "module/grafik/grafikbantuandesa.php";
     }
   }
 
-//=======================================
+  //=======================================
 
   elseif ($_GET['module'] == 'akseptorkb') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
@@ -162,8 +160,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkel') {
       include "module/dasawisma/lihatdasawisma.php";
     }
-  }
-  elseif ($_GET['module'] == 'kriteria') {
+  } elseif ($_GET['module'] == 'kriteria') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk') {
       include "module/kriteria/kriteria.php";
     }
@@ -219,8 +216,7 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     if ($_SESSION['ses_level'] == 'admkel') {
       include "module/keluarga/lihatkeluarga.php";
     }
-  }
-  elseif ($_GET['module'] == 'rekap18a') {
+  } elseif ($_GET['module'] == 'rekap18a') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
       include "module/mstpekarangan/rekap18a/rptkeluargakel.php";
     }
@@ -248,29 +244,25 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
     }
   }
   //==================== 02-08-2021 ===========
- //Bantuan
+  //Bantuan
 
-elseif ($_GET['module'] == 'bantuan') {
-  if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
-    include "module/bantuan/bantuan.php";
-  }
-}
-elseif ($_GET['module'] == 'editbantuan') {
-  if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
-    include "module/bantuan/editbantuan.php";
-  }
-} elseif ($_GET['module'] == 'lihatbantuan') {
-  if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
-    include "module/bantuan/lihatbantuan.php";
-  }
-}
-  elseif ($_GET['module'] == 'hapusbantuan') {
+  elseif ($_GET['module'] == 'bantuan') {
+    if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
+      include "module/bantuan/bantuan.php";
+    }
+  } elseif ($_GET['module'] == 'editbantuan') {
+    if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
+      include "module/bantuan/editbantuan.php";
+    }
+  } elseif ($_GET['module'] == 'lihatbantuan') {
+    if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
+      include "module/bantuan/lihatbantuan.php";
+    }
+  } elseif ($_GET['module'] == 'hapusbantuan') {
     if ($_SESSION['ses_level'] == 'admkel' or $_SESSION['ses_level'] == 'admin') {
       include "module/bantuan/hapusbantuan.php";
     }
-  }
-
- elseif ($_GET['module'] == 'koperasi') {
+  } elseif ($_GET['module'] == 'koperasi') {
     if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec' or $_SESSION['ses_level'] == 'admkel') {
       include "module/koperasi/koperasi.php";
     }
@@ -682,7 +674,6 @@ elseif ($_GET['module'] == 'editbantuan') {
         <h2 class="headline text-yellow"> 404</h2>
         <div class="error-content">
           <h3><i class="fa fa-warning text-yellow"></i> Oops! Fitur ini masih tahap pengembangan.</h3>
-          <!--<h3><i class="fa fa-warning text-yellow"></i> Oops! Alamat Website tidak ketemu.</h3>-->
           <p>
             Coba Cek Penulisan Link Website
             Lakukan Refresh <a href="?module=beranda">Kembali ke dashboard</a> atau coba kembali cek penulisan link.
@@ -693,11 +684,11 @@ elseif ($_GET['module'] == 'editbantuan') {
               <div class="input-group-btn">
                 <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
               </div>
-            </div><!-- /.input-group -->
+            </div>
           </form>
-        </div><!-- /.error-content -->
-      </div><!-- /.error-page -->
-    </section><!-- /.content -->
+        </div>
+      </div>
+    </section>
 <?php
   }
 }

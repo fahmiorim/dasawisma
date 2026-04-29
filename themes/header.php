@@ -5,9 +5,11 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
 ?>
 
   <?php
-
   include "../config/library.php";
+  include "../config/koneksi.php";
   ?>
+
+
   <header class="main-header" style="background: linear-gradient(135deg, #008080 0%, #007373 100%); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
     <a href="?module=beranda" class="logo" style="background: rgba(255,255,255,0.1); color: white;">
       <span class="logo-mini" style="color: white;"><b>e</b>DAS</span>
@@ -106,7 +108,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
         </ul>
       </div>
     </nav>

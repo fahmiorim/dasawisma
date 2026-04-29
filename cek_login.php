@@ -17,7 +17,6 @@ $login  = pg_query($koneksi, $query);
 $ketemu = pg_num_rows($login);
 $r      = pg_fetch_array($login);
 
-// Apabila username dan password ditemukan
 if ($ketemu > 0) {
   session_start();
 

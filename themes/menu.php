@@ -7,7 +7,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
 
     <section class="sidebar">
 
-      <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" style="background: transparent;">
         <li class="header text-center" style="color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.1);">Menu</li>
         <li><a href="?module=beranda" style="color: white; border-left: 3px solid rgba(255,255,255,0.3);"><i class="fa fa-home"></i> <span> Beranda</span></a></li>
@@ -22,11 +21,11 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
             <ul class="treeview-menu" style="background: rgba(0,0,0,0.1);">
               <li><a href="?module=grapkec" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> Grafik Data Kecamatan</a></li>
               <li><a href="?module=graphbantuan" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> <span>Grafik Bantuan Kecamatan</span></a></li>
-        <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
-              <li><a href="?module=grapdesa" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> Grafik Data Kelurahan/Desa</a></li>
+              <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
+                <li><a href="?module=grapdesa" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> Grafik Data Kelurahan/Desa</a></li>
               <?php } ?>
-        <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
-              <li><a href="?module=graphbantuan1" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> <span>Grafik Bantuan Kelurahan/Desa</span></a></li>
+              <?php if ($_SESSION['ses_level'] == 'admin' or $_SESSION['ses_level'] == 'admpkk' or $_SESSION['ses_level'] == 'admkec') { ?>
+                <li><a href="?module=graphbantuan1" style="color: rgba(255,255,255,0.9);"><i class="fa fa-circle-o"></i> <span>Grafik Bantuan Kelurahan/Desa</span></a></li>
               <?php } ?>
             </ul>
           </li>
@@ -277,7 +276,6 @@ if (empty($_SESSION['ses_user']) and empty($_SESSION['ses_password'])) {
 
       </ul>
     </section>
-    <!-- /.sidebar -->
   </aside>
 <?php
 }
