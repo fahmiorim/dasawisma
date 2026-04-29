@@ -1,11 +1,10 @@
 <?php
 
-// konfigurasi koneksi
 $host       =  "localhost";
-$dbuser     =  "postgres";
-$dbpass     =  "zaxah2025";
+$dbuser     =  "";
+$dbpass     =  "";
 $port       =  "5432";
-$dbname    =  "db_dasawisma";
+$dbname     =  "";
 
 
 $pg_options = "--client_encoding=UTF8";
